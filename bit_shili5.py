@@ -15,7 +15,7 @@ def getHTMLText(url):
 def fillUnivList(ulist,html):
     '''提取html中关键信息，并填写到列表中'''
     soup = BeautifulSoup(html,'html.parser')#html解析器
-    for tr in soup.find('tbody').children:#每一个tr就对应一所大学的信息
+    for tr in soup.find('tbody'):#每一个tr就对应一所大学的信息
         if isinstance(tr,bs4.element.Tag):#监测tr标签，监测是否是tag类型
             #tr标签已经监测出来，需要对td标签进行提取
             tds = tr('td')
