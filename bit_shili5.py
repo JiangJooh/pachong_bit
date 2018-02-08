@@ -21,7 +21,7 @@ def fillUnivList(ulist,html):
             tds = tr('td')
             ulist.append([tds[0].string,tds[1].string,tds[3].string])#排名学校省份
     print('fillUniv over')
-    print(ulist)
+   # print(ulist)
 
 def printUnivList(ulist,num):
     print('{:^10}\t{:^6}\t{:^10}'.format('排名','学校名称','得分'))

@@ -97,3 +97,4 @@ ENV/
 
 # mypy
 .mypy_cache/
+bit_shili5.py
