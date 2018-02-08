@@ -1,15 +1,33 @@
 import requests
 from bs4 import BeautifulSoup
+import bs4
 
 def getHTMLText(url):
-    
-    return ""
+    try:
+        r = requests.get(url,timout=30) 
+        r.raise_for_status()#产生异常信息
+        r.encoding = r.apparent_encoding
+        return r.text #r是你get到的信息
+    except:
+        print('出现错误')
+    print('getHtml over')
 
 def fillUnivList(ulist,html):
-    pass
+    '''提取html中关键信息，并填写到列表中'''
+    soup = BeautifulSoup(html,'html.parser')#html解析器
+    for tr in soup.find('tbody').children:#每一个tr就对应一所大学的信息
+        if isinstance(tr,bs4.element.Tag):#监测tr标签，监测是否是tag类型
+            #tr标签已经监测出来，需要对td标签进行提取
+            tds = tr('td')
+            ulist.append([tds[0].string,tds[1].string,tds[3].string])#排名学校省份
+    print('fillUniv over')
 
 def printUnivList(ulist,num):
-    print('Suc' + str(num))
+    print('{:^10}\t{:^6}\t{:^10}'.format('排名','学校名称','得分'))
+    for i in range(num):
+        u = ulist[i]
+        print('{:^10}\t{:^6}\t{:^10}'.format(u[0],u[1],u[3]))
+    print('printUniv over')
 
 def main():
     uinfo = []#存放大学信息
@@ -18,7 +36,7 @@ def main():
     #将html中的信息转换后放到uinfo的列表中
     fillUnivList(uinfo,html)
     #输出
-    printUnivList(uinfo,20)
+    printUnivList(uinfo,10)
 
 if __name__ == '__main__' :
     print('主函数开始执行爬取信息')
