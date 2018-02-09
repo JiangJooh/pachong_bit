@@ -41,7 +41,7 @@ def printGoodList(ilt):#输出商品信息列表
     print('打印完成')
 
 def main():
-    goods = '联想' #设计搜索内容
+    goods = '熊' #设计搜索内容
     depth = 3 #设定爬取深度，这里我们设计爬取第123页
     start_url = 'https://s.taobao.com/search?q='+goods
     infoList = []
