@@ -22,10 +22,12 @@ def getStockList(lst,stockURL):
     '''
      <li><a target="_blank" href="http://quote.eastmoney.com/sh201000.html">R003(201000)</a></li>
     '''
+    #for i in a:
     for i in a:
         try:
             #个股的股票编号保存在lst中
             href = i.attrs['href']
+            #print(type(href))
             lst.append(re.findall(r'[s][hz]\d{6}',href)[0])
             #findall返回列表，比如a=[sh012345],取0，就取出了里面的数字
             #在append到lst里，这样lst就不会是[[sh201000], [sh201002]]这样
@@ -44,13 +46,18 @@ def getStockInfo(lst,stockURL,fpath):
             infoDict = {}
             soup = BeautifulSoup(html,'html.parser')
             stockInfo = soup.find('div',attrs={'class':'stock-bets'})#获取当前股票所在的div标签
-            print(stockInfo)
+            #print(stockInfo)
             # find 返回一个字符串
             # find_all 返回一个列表
 
             #获取股票名字
-            name = stockInfo.find_all(attrs = {'class':'bets-name'})
-            infoDict.update({'股票名称':name.text.split()})
+            name = soup.find('a',attrs = {'class':'bets-name'})
+            #print(type(name)) 标签类
+            #print(name)
+            jijin = re.findall(r'[A-Z0-9]+',str(name))
+            print(jijin[0])
+            print(name.text)
+            infoDict.update({'股票名称':name.text.split()[0]})
 
             keyList = stockInfo.find_all('dt')
             valueList = stockInfo.find_all('dd')#找到股票信息的两个键、值标签
