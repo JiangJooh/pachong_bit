@@ -19,14 +19,23 @@ def getHTMLText(url):
 
 def parsePage(ilt,html):
     soup = BeautifulSoup(html,'html.parser')
-    for
+    print(soup.prettify())
+    for strong in soup.find('div')
+    a=[]
+    price = re.findall(r'<strong>[\d.]*',soup)
+    print(price)
+    for i in range(len(price)):
+        price_num = eval(price[i].split('>')[1])
+        a.append(price_num)
+    print(a)
+    
 
 def printGoodList(ilt):
     pass
 
 def main():
     #设定请求内容
-    goods = '书包'
+    goods = '联想'
     #设定爬取深度
     depth = 3
     start_url = 'https://s.taobao.com/search?q='+goods
@@ -37,7 +46,7 @@ def main():
         try:
             url = start_url+'&s='+str(44*i)
             print('爬取的URL为：'+url)
-            html = getHTMLText(url)
+            html = getHTMLText(url)#r.text
             parsePage(infoList,html)#对页面解析
         except :
             print('出现异常')
