@@ -3,12 +3,14 @@ from bs4 import BeautifulSoup
 import traceback
 import re
 
-def getHTMLText(url):
+def getHTMLText(url,code='utf-8'):
     #print('开始获取URL信息')
     try:
         r = requests.get(url,timeout=30)
         r.raise_for_status()
-        r.encoding = r.apparent_encoding
+        '''优化位置1：如果已知网页的编码格式，可以修改自动识别的方式'''
+        r.encoding = code
+        #r.encoding = r.apparent_encoding
         return r.text
     except:
         return ""
@@ -36,6 +38,9 @@ def getStockList(lst,stockURL):
     print('获取股票列表完毕')
 
 def getStockInfo(lst,stockURL,fpath):
+    '''优化2：增加进度条'''
+    count = 0
+    
     print('开始获取股票信息')
     for stock in lst:
         url = stockURL+stock+'.html'
@@ -69,8 +74,12 @@ def getStockInfo(lst,stockURL,fpath):
 
             with open(fpath,'a',encoding='utf-8') as f:
                 f.write(str(infoDict)+'\n')
-
+                #进度条
+                count  = count +1
+                print('\r当前进度：{:.2f}%'.format(count*100/len(lst)),end='')
         except:
+            count  = count +1
+            print('\r当前进度：{:.2f}%'.format(count*100/len(lst)),end='')
             traceback.print_exc()
             continue
     print('开始获取股票信息')
